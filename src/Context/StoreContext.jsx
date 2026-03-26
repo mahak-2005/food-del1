@@ -5,7 +5,7 @@ export const StoreContext = createContext(null);
 
 const StoreContextProvider = (props) => {
 
-    const url = "http://localhost:4000"
+    const url = "https://food-del1-backend-73sx.onrender.com"
     const [food_list, setFoodList] = useState([]);
     const [cartItems, setCartItems] = useState({});
     const [token, setToken] = useState("")
@@ -13,16 +13,15 @@ const StoreContextProvider = (props) => {
     const deliveryCharge = 50;
 
     const addToCart = async (itemId) => {
-        if (!cartItems[itemId]) {
-            setCartItems((prev) => ({ ...prev, [itemId]: 1 }));
-        }
-        else {
-            setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
-        }
-        if (token) {
-            await axios.post(url + "/api/cart/add", { itemId }, { headers: { token } });
-        }
+    setCartItems((prev) => ({
+        ...prev,
+        [itemId]: prev[itemId] ? prev[itemId] + 1 : 1
+    }));
+
+    if (token) {
+        await axios.post(url + "/api/cart/add", { itemId }, { headers: { token } })
     }
+};
 
     const removeFromCart = async (itemId) => {
         setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }))
