@@ -5,12 +5,12 @@ export const StoreContext = createContext(null);
 
 const StoreContextProvider = (props) => {
 
-    const url = "http://localhost:4000"
+    const url = "https://food-del1-backend-73sx.onrender.com"
     const [food_list, setFoodList] = useState([]);
     const [cartItems, setCartItems] = useState({});
     const [token, setToken] = useState("")
     const currency = "₹";
-    const deliveryCharge = 50;
+    const deliveryCharge = 30;
 
     const addToCart = async (itemId) => {
     setCartItems((prev) => ({
