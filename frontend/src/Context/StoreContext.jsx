@@ -1,27 +1,33 @@
 import { createContext, useEffect, useState } from "react";
 import { food_list, menu_list } from "../assets/assets";
 import axios from "axios";
+
 export const StoreContext = createContext(null);
 
 const StoreContextProvider = (props) => {
 
     const url = "https://food-del1-backend-73sx.onrender.com"
+
     const [food_list, setFoodList] = useState([]);
     const [cartItems, setCartItems] = useState({});
-    const [token, setToken] = useState("")
+    const [token, setToken] = useState("");
+
+    // ✅ SEARCH STATE
+    const [search, setSearch] = useState("");
+
     const currency = "₹";
     const deliveryCharge = 30;
 
     const addToCart = async (itemId) => {
-    setCartItems((prev) => ({
-        ...prev,
-        [itemId]: prev[itemId] ? prev[itemId] + 1 : 1
-    }));
+        setCartItems((prev) => ({
+            ...prev,
+            [itemId]: prev[itemId] ? prev[itemId] + 1 : 1
+        }));
 
-    if (token) {
-        await axios.post(url + "/api/cart/add", { itemId }, { headers: { token } })
-    }
-};
+        if (token) {
+            await axios.post(url + "/api/cart/add", { itemId }, { headers: { token } })
+        }
+    };
 
     const removeFromCart = async (itemId) => {
         setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }))
@@ -34,14 +40,13 @@ const StoreContextProvider = (props) => {
         let totalAmount = 0;
         for (const item in cartItems) {
             try {
-              if (cartItems[item] > 0) {
-                let itemInfo = food_list.find((product) => product._id === item);
-                totalAmount += itemInfo.price * cartItems[item];
-            }  
+                if (cartItems[item] > 0) {
+                    let itemInfo = food_list.find((product) => product._id === item);
+                    totalAmount += itemInfo.price * cartItems[item];
+                }
             } catch (error) {
-                
+
             }
-            
         }
         return totalAmount;
     }
@@ -80,7 +85,11 @@ const StoreContextProvider = (props) => {
         loadCartData,
         setCartItems,
         currency,
-        deliveryCharge
+        deliveryCharge,
+
+        // ✅ SEARCH EXPORT
+        search,
+        setSearch
     };
 
     return (
@@ -88,7 +97,6 @@ const StoreContextProvider = (props) => {
             {props.children}
         </StoreContext.Provider>
     )
-
 }
 
 export default StoreContextProvider;
