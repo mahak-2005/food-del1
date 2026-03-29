@@ -46,6 +46,18 @@
     background-color: #E2E2E2;
     border: none;
 }
+.explore-menu-list-item img{
+    width: 7.5vw;
+    min-width: 80px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: transform 0.3s ease; /* 🔥 update */
+}
+
+/* 🔥 HOVER ZOOM */
+.explore-menu-list-item:hover img{
+    transform: scale(1.1);
+}
 @media (max-width:1050px) {
     .explore-menu-text{
         max-width: 100%;
